@@ -1,35 +1,67 @@
 import React,{ useState} from 'react';
-import { Text, SafeAreaView, StyleSheet, View, Image,TouchableOpacity,TextInput} from 'react-native';
+import { Text, SafeAreaView, StyleSheet, View, Image,TouchableOpacity,TextInput, Alert} from 'react-native';
 import {AntDesign, Fontisto} from '@expo/vector-icons';
-import { useNavigation } from '@react-navigation/native';
+import { useNavigation, useRoute } from '@react-navigation/native';
+import axios from 'axios';
 
 export default function Screen03() {
-  const [job,setJob] = useState('');
+  const [task,setTask] = useState('');
   const navigation = useNavigation();
+  const route = useRoute();
+  const email = route.params?.email;
+  const name = route.params?.name || "User";
+
+  
+  const addTask = async () => {
+    if(!task.trim()){
+      Alert.alert("Error", "Please enter a job description.");
+      return;
+    }
+  
+    try{
+      const response = await axios.post('https://6715e56333bc2bfe40bb7301.mockapi.io/data', {
+        email:email,
+        task: task,
+        name:name,
+      });
+
+      if (response.status === 201) {
+        Alert.alert("Success", "Job added successfully!");
+        setTask('');
+        navigation.navigate('Api_Screen_02', { email });
+         } else {
+        Alert.alert("Error", "Failed to add job. Please try again.");
+      }
+    } catch (error) {
+      console.log("Error adding job:", error);
+      Alert.alert("Error", "An error occurred. Please try again.");
+    }
+  };
+
   return (
     <SafeAreaView style={styles.container}>
       <View style={styles.header}>
         <View style={styles.info}> 
-          <Image source={require('./Rectangle.png')} style={styles.profileImage}/>
+          <Image source={require("../assets/Rectangle.png")} style={styles.profileImage}/>
           <View style={styles.textHeader}>
-            <Text style={styles.name}>Hi Twinkle</Text>
+            <Text style={styles.name}>Hi {name}</Text>
             <Text style={styles.description}>Have agrate day a head</Text>
           </View>
         </View>
         <TouchableOpacity> 
-          <AntDesign name="arrowleft" size={24} color="black" onPress={() => navigation.navigate('Api_Screen_02')}/>
+          <AntDesign name="arrowleft" size={24} color="black" onPress={() => navigation.navigate('Api_Screen_02', {email})}/>
         </TouchableOpacity>
       </View>
       <Text style={styles.title}>ADD YOUR JOB</Text>
       <View style={styles.inputContainer}> 
         <Fontisto name="nav-icon-list-a" size={24} color="green" />
-        <TextInput style={styles.textInput} placeholder="input your job" value={job} onChangeText={setJob}/>
+        <TextInput style={styles.textInput} placeholder="input your job" value={task} onChangeText={setTask}/>
       </View>
-      <TouchableOpacity style={styles.finishButton}>
+      <TouchableOpacity style={styles.finishButton} onPress={addTask}>
         <Text style={styles.textButton}>Finish ➔</Text>
       </TouchableOpacity>
 
-      <Image source={require('./Image_95.png')} style={styles.noteImage}/>
+      <Image source={require("../assets/Image_95.png")} style={styles.noteImage}/>
     </SafeAreaView>
   );
 }

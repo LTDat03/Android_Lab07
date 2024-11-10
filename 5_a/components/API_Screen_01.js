@@ -1,15 +1,33 @@
-import react from 'react';
-import { Text, SafeAreaView, StyleSheet, View, Image, TouchableOpacity, TextInput} from 'react-native';
+import react, {useState} from 'react';
+import { Text, SafeAreaView, StyleSheet, View, Image, TouchableOpacity, TextInput, Alert} from 'react-native';
 import Fontisto from '@expo/vector-icons/Fontisto';
 import { useNavigation } from '@react-navigation/native';
 
 export default function Screen01() {
+  const [email, setEmail] = useState('');
   const navigation = useNavigation();
+
+  const handleLogin = async () => {
+    try{
+      const response = await fetch('https://6715e56333bc2bfe40bb7301.mockapi.io/data');
+      const data = await response.json();
+
+      const user = data.find(u => u.email === email);
+
+      if (user){
+        navigation.navigate('Api_Screen_02', {email});
+      }else{
+        Alert.alert('Error', 'Invalid credentials');
+      }
+    }catch(error){
+      Alert.alert('Error', 'Something went wrong');
+    }
+  };
 
   return (
     <SafeAreaView style={styles.container}>
       <View style={styles.imageContainer}> 
-        <Image source={require('./Image_95.png')}
+        <Image source={require("../assets/Image_95.png")}
               style={styles.image}
         />
       </View>
@@ -22,9 +40,11 @@ export default function Screen01() {
           style={styles.textInput}
           placeholder="Enter your name"
           placeholderTextColor = "#999"
+          value={email}
+          onChangeText={text => setEmail(text)}
         />
       </View>
-      <TouchableOpacity style={styles.button} onPress={() => navigation.navigate('Api_Screen_02')}>
+      <TouchableOpacity style={styles.button} onPress={handleLogin}>
         <Text style={styles.buttonText}>GET STARTED ➔</Text>
       </TouchableOpacity>
     </SafeAreaView>

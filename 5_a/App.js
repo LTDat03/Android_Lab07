@@ -10,8 +10,7 @@ export default function App() {
   return (
     <NavigationContainer>
       <Stack.Navigator initialRouteName="Home">
-        <Stack.Screen name = "Home" component={Screen01} 
-         options={{ headerShown: false }}/>
+        <Stack.Screen name = "Home" component={Screen01} options={{ headerShown: false }} />
         <Stack.Screen name = "Api_Screen_02" component={Screen02} options={{headerShown:false}} />
         <Stack.Screen name = "Api_Screen_03" component={Screen03} options={{headerShown:false}} />
       </Stack.Navigator>
