@@ -1,7 +1,11 @@
+import react from 'react';
 import { Text, SafeAreaView, StyleSheet, View, Image, TouchableOpacity, TextInput} from 'react-native';
 import Fontisto from '@expo/vector-icons/Fontisto';
+import { useNavigation } from '@react-navigation/native';
 
 export default function App() {
+  const navigation = useNavigation();
+
   return (
     <SafeAreaView style={styles.container}>
       <View style={styles.imageContainer}> 
@@ -20,7 +24,7 @@ export default function App() {
           placeholderTextColor = "#999"
         />
       </View>
-      <TouchableOpacity style={styles.button}>
+      <TouchableOpacity style={styles.button} onPress={() => navigation.navigate('Api_Screen_02')}>
         <Text style={styles.buttonText}>GET STARTED ➔</Text>
       </TouchableOpacity>
     </SafeAreaView>
