@@ -2,7 +2,7 @@ import { Image,Text, SafeAreaView, StyleSheet, View, FlatList,TouchableOpacity, 
 import {AntDesign, Fontisto} from '@expo/vector-icons'; 
 import { useNavigation } from '@react-navigation/native';
 
-export default function App() {
+export default function Screen02() {
   const navigation = useNavigation();
 
   const tasks = [
@@ -32,7 +32,7 @@ export default function App() {
   return (
     <SafeAreaView style={styles.container}>
       <View style={styles.header}>
-        <AntDesign name="arrowleft" size={24} color="black" />
+        <AntDesign name="arrowleft" size={24} color="black" onPress={() => navigation.navigate('Home')}/>
         <View style={styles.info}> 
             <Image source={require("./Rectangle.png")} style={{height:50,width:50,borderRadius:50,backgroundColor:"#D9CBF6"}}/>
             <View style={styles.textHeader}>
@@ -57,7 +57,7 @@ export default function App() {
         contentContainerStyle={styles.list}
         />
       </View>
-      <TouchableOpacity style={styles.addButton}>
+      <TouchableOpacity style={styles.addButton} onPress={() => navigation.navigate('Api_Screen_03')}>
         <AntDesign name="plus" size={24} color="white" /> 
       </TouchableOpacity>
     </SafeAreaView>
@@ -70,6 +70,7 @@ const styles = StyleSheet.create({
     backgroundColor: '#fff',
   },
   header:{
+    alignItems:'center',
     marginTop:10,
     marginHorizontal:20,
     flexDirection:'row',

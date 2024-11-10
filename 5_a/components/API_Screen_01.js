@@ -3,7 +3,7 @@ import { Text, SafeAreaView, StyleSheet, View, Image, TouchableOpacity, TextInpu
 import Fontisto from '@expo/vector-icons/Fontisto';
 import { useNavigation } from '@react-navigation/native';
 
-export default function App() {
+export default function Screen01() {
   const navigation = useNavigation();
 
   return (
